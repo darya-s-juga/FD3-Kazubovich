@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filter</title>
+</head>
+<body>
+    <div id="container">
+        <!-- <input type="checkbox" onchange=""> -->
+    </div>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+
+    <script src="./WordsFilter.js"></script>
+    <link rel="stylesheet" type="text/css" href="./WordsFilter.css">
+
+    <script>
+        let nameFilter='wordsFilter';
+        let wordsArr= [
+        {text: 'california', code: 2},
+        {text: 'everything', code: 3},
+        {text: 'aboveboard', code: 4},
+        {text: 'washington', code: 5},
+        {text: 'basketball', code: 6},
+        {text: 'weathering', code: 7},
+        {text: 'characters', code: 8},
+        {text: 'literature', code: 9},
+        {text: 'contraband', code: 10},
+        {text: 'appreciate', code: 11},
+        ];
+
+
+        ReactDOM.render(
+        React.createElement(WordsFilter, {list:wordsArr}),
+        document.getElementById('container')
+        );
+    </script>
+</body>
+</html>
