@@ -32,16 +32,13 @@ let WordsFilter=React.createClass({
     },
 
     processList: () => {
-        let listCode=this.props.list.map( word =>
-            React.DOM.option({key: word.code, value: word.code}, word.text)
-            );
         if (this.state.isAlphabet) {
             listCode.sort();
         }
         if (this.state.isLetter) {
 
         }
-        return (this.setState( {result: listCode} ) );
+        this.setState( {result: listCode} );
     },
 
     render: function() {
