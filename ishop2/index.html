@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ishop</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+
+    <script src="./Product.js"></script>
+    <link rel="stylesheet" type="text/css" href="./ProductsList.css">
+    <script src="./Shop.js"></script>
+
+    <script>
+        let nameShop='ishop';
+        let titleArr = [
+            {code: 1, title1:'title', title2: 'cost', title3: 'picture', title4: 'count', button1: 'delete product'}
+        ];
+
+        let productsArr= [
+        {title: 'charger', code: 2, price: 100, url: './images/charger.jpg', count: 100, delete: 'Delete'},
+        {title: 'headphones', code: 3, price: 200, url: './images/ethetnet_hub.jpg', count: 200, delete: 'Delete'},
+        {title: 'ethernet hub', code: 4, price: 300, url: './images/headphones.jpg', count: 300, delete: 'Delete'},
+        ];
+
+
+
+        ReactDOM.render(
+        React.createElement(Shop, {shop:nameShop, products: productsArr, header: titleArr}),
+        document.getElementById('container')
+        );
+    </script>
+
+</body>
+</html>
