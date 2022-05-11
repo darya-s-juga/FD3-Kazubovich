@@ -35,7 +35,7 @@ let Shop = React.createClass( {
 
     render: function() {
 
-        let productsTable=this.props.products.map(product =>
+        let productsTable=this.props.productsOrig.map(product =>
             React.createElement(Product, 
                 {key:product.code, title:product.title, price: product.price, url: product.url, count: product.count, 
                 cbSelected:this.select, cbDeleted: this.delete,
