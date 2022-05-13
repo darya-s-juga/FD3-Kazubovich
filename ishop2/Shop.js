@@ -4,6 +4,7 @@ let Shop = React.createClass( {
 
     propTypes: {
         shop: React.PropTypes.string.isRequired,
+        header: React.PropTypes.array.isRequired,
         products: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 code: React.PropTypes.number.isRequired,
@@ -13,21 +14,23 @@ let Shop = React.createClass( {
                 count: React.PropTypes.number,
             })
         ),
-        // selectedProductCode: React.PropTypes.number.isRequired,
     },
 
     getInitialState: function(){
         return {
             selectedProductCode: null,
-            products: [], 
+            products: this.props.productsOrig, 
         };
     },
 
     select: function(code){
+        console.log(this.props.code)
+
         this.setState( {selectedProductCode:code} );
     },
 
     delete: function(code) {
+        
         this.setState( {
             products: this.state.products.filter( product => product.code !== code )
         });
@@ -35,9 +38,9 @@ let Shop = React.createClass( {
 
     render: function() {
 
-        let productsTable=this.props.productsOrig.map(product =>
+        let productsTable=this.state.products.map(product =>
             React.createElement(Product, 
-                {key:product.code, title:product.title, price: product.price, url: product.url, count: product.count, 
+                {key:product.code, code: product.code, title:product.title, price: product.price, url: product.url, count: product.count, 
                 cbSelected:this.select, cbDeleted: this.delete,
                 isSelected:(this.state.selectedProductCode===product.code),
             })

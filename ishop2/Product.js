@@ -19,16 +19,19 @@ let Product = React.createClass( {
       eo.stopPropagation();
       if (this.props.cbDeleted)
           this.props.cbDeleted(this.props.code);
+          console.log(this.props.code)
+
   },
 
   select: function (eo) {
     if (this.props.cbSelected)
         this.props.cbSelected(this.props.code);
+        console.log(this.props.code)
 },
 
   render: function () {
 
-    return React.DOM.tr( {key: this.props.code, onClick:this.select({className: this.props.isSelected?'selected':''}) },
+    return React.DOM.tr( {className: this.props.isSelected?'selected':'normal', onClick:this.select, key:this.props.code },
           React.DOM.td( {className: 'str'}, this.props.title ),
           React.DOM.td( {className: 'str'}, this.props.price ),
           React.DOM.td( {className: 'ur'},
@@ -37,7 +40,7 @@ let Product = React.createClass( {
           React.DOM.td( {className: 'str'}, this.props.count ),
           React.DOM.td( {className: 'button1'},
             React.DOM.input( {type:'button',value:'Delete', onClick:this.delete}),
-          ),
+          )
           )
   },
 })
