@@ -1,0 +1,7 @@
+input {
+    cursor: pointer;
+}
+
+tr.selected {
+    background-color: blue;
+}
