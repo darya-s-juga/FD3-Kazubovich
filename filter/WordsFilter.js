@@ -16,9 +16,7 @@ let WordsFilter=React.createClass({
         return {
             isAlphabet: false,
             isLetter: ' ',
-            result: this.props.list.map( word =>
-                React.DOM.option({key: word.code, value: word.code}, word.text)
-            ),
+            result: this.props.list,
         };
     },
 
@@ -35,33 +33,35 @@ let WordsFilter=React.createClass({
     },
 
     processList: function() {
-        // let listCode=this.props.list.map( word =>
-        //     React.DOM.option({key: word.code, value: word.code}, word.text)
-        //     );
-        let listCode=this.state.result;
-        console.log(listCode);
+        let listCode1=this.props.list.map( word =>
+            React.DOM.option({key: word.code, value: word.code}, word.text)
+            );
+        console.log(listCode1);
         if (this.state.isAlphabet) {
-            listCode.sort();
-            console.log(listCode);
+            listCode1.sort();
+            console.log(listCode1);
 
             // this.setState( {isAlphabet: true} );
         }
         if (this.state.isLetter) {
 
         }
-        this.setState( {result: listCode} );
+        this.setState( {result: listCode1} );
         console.log(this.state.result);
 
     },
 
     render: function() {
+        let listCode=this.state.result.map( word =>
+            React.DOM.option({key: word.code, value: word.code}, word.text)
+            );
         return React.DOM.div( {className:'WordsFilter'},
             React.DOM.div( {className: 'blockFilters'},
                 React.DOM.input( {type:'checkbox', name: 'filterAlfabet', checked: this.state.isAlphabet, onChange: this.alfabetChecked} ),
                 React.DOM.input( {type: 'text', name:'enterLetter', value: this.state.isLetter, onChange: this.sortList} ),
                 React.DOM.input( {type: 'button', value:'Сброс', onClick: this.reset } ),
             ),
-            React.DOM.select({className:'List', size: 3}, this.state.result)
+            React.DOM.select({className:'List', size: 3}, listCode),
         );
     }
 })
