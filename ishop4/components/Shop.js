@@ -2,7 +2,7 @@ var React = require('react');
 
 require('./Shop.css');
 
-let VotesQuestion = require('./Product');
+let Product = require('./Product');
 
 let Shop = React.createClass( {
 
