@@ -1,76 +1,95 @@
-var React = require('react');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-require('./Shop.css');
+import './Shop.css';
 
-let Product = require('./Product');
+import Product from './Product';
+import CardProduct from './CardProduct';
 
-let Shop = React.createClass( {
+class Shop extends React.Component {
 
-    displayName: 'Shop',
+    // displayName: 'Shop',
 
-    propTypes: {
-        shop: React.PropTypes.string.isRequired,
-        header: React.PropTypes.array.isRequired,
-        products: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-                code: React.PropTypes.number.isRequired,
-                title: React.PropTypes.string.isRequired,
-                price: React.PropTypes.number.isRequired,
-                url: React.PropTypes.any,
-                count: React.PropTypes.number,
+    static propTypes = {
+        shop: PropTypes.string.isRequired,
+        header: PropTypes.array.isRequired,
+        products: PropTypes.arrayOf(
+            PropTypes.shape({
+                code: PropTypes.number.isRequired,
+                title: PropTypes.string.isRequired,
+                price: PropTypes.number.isRequired,
+                url: PropTypes.any,
+                count: PropTypes.number,
             })
         ),
-    },
+    };
 
-    getInitialState: function(){
-        return {
-            selectedProductCode: null,
-            products: this.props.productsOrig, 
-        };
-    },
+    state = {
+        selectedProductCode: null,
+        products: this.props.productsOrig, 
+        cardProductArr: null,  //информация о выделенном товаре
+    };
 
-    select: function(code){
-        console.log(this.props.code)
+    select = code => {
+        console.log(this.props.code);
+        this.setState( {selectedProductCode:code});
 
-        this.setState( {selectedProductCode:code} );
-    },
+        let addCardProduct= this.state.products.filter(product => product.code == code )
+        this.setState({cardProductArr: addCardProduct});
+        console.log(this.state.cardProductArr);
+    }
 
-    delete: function(code) {
-        
+    delete = code => {
         this.setState( {
-            products: this.state.products.filter( product => product.code !== code )
+            products: this.state.products.filter( product => product.code !== code ),
         });
-    },
+    }
 
-    render: function() {
-
+    render() {
         let productsTable=this.state.products.map(product =>
-            React.createElement(Product, 
-                {key:product.code, code: product.code, title:product.title, price: product.price, url: product.url, count: product.count, 
-                cbSelected:this.select, cbDeleted: this.delete,
-                isSelected:(this.state.selectedProductCode===product.code),
-            })
+            <Product key = {product.code}
+                code = {product.code} title= {product.title} price = {product.price}
+                url= {product.url} count = {product.count}
+                cbSelected = {this.select} cbDeleted = {this.delete}
+                isSelected = {this.state.selectedProductCode===product.code}
+            />
         );
 
         let headerTable= this.props.header.map(tit =>
-            React.DOM.tr({className: 'Header', key: tit.code},
-                React.DOM.th({className:'title'}, tit.title1),
-                React.DOM.th({className:'price'}, tit.title2),
-                React.DOM.th({className:'url'}, tit.title3), 
-                React.DOM.th({className:'count'}, tit.title4),
-                React.DOM.th({className:'button'},tit.button1),
-            )
+            <tr className = 'Header' key= {tit.code}>
+                <th className ='title'> {tit.title1}</th>
+                <th className ='price'> {tit.title2}</th>
+                <th className ='url'> {tit.title3}</th>
+                <th className ='count'> {tit.title4}</th>
+                <th className ='button'> {tit.control}</th>
+            </tr>
         );
 
-        return React.DOM.div( {className: 'Shop'},
-            React.DOM.div( {className:'shopName'}, this.props.shop ),
-            React.DOM.table({className: 'tagTable'},
-                React.DOM.thead({className: 'listTable'}, headerTable),
-                React.DOM.tbody({className: 'listTable'}, productsTable),
-            ),
+        let cardProduct=this.state.cardProductArr.map(str =>
+            <CardProduct key= {str.code}
+            code = {str.code} title= {str.title} price = {str.price}
+            url= {str.url} count = {str.count}
+            cbSelected = {this.select}
+            isSelected = {this.state.selectedProductCode===str.code}
+            />
+            );
+            
+        return (<div className= 'Shop'>
+        
+            <div className ='shopName'>{this.props.shop}</div>
+                <table className = 'tagTable'>
+                    <thead className= 'listTable'>{headerTable}</thead>
+                    <tbody className = 'listTable'>{productsTable}</tbody>
+                </table>
+                <input type='button' className='newProduct' value='New product' onClick={this.newProduct}/>
+                {
+                (this.state.selectedProductCode)&&
+                <div className='CardProduct'>{cardProduct}</div>}
+                
+            </div>
         );
-    },
-});
+    }
+};
 
-module.exports = Shop;
+export default Shop;
 

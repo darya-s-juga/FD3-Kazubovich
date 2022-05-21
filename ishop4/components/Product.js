@@ -1,53 +1,55 @@
-let React = require('react');
+import React  from 'react';
+import PropTypes from 'prop-types';
 
-require('./Product.css');
+import './Product.css';
 
-let Product = React.createClass( {
+class Product extends React.Component {
 
-    displayName: 'Product',
+    // displayName: 'Product',
   
-    propTypes: {
-        answers:React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-              code: React.PropTypes.number.isRequired,
-              count: React.PropTypes.number.isRequired,
-              title: React.PropTypes.string.isRequired,
-              cbSelected: React.PropTypes.func.isRequired,
-              cbDeleted: React.PropTypes.func.isRequired,
-              isSelected: React.PropTypes.bool,
-            })
-          ),
-    },
+    static propTypes = {
+      products:PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.number.isRequired,
+          count: PropTypes.number.isRequired,
+          title: PropTypes.string.isRequired,
+          cbSelected: PropTypes.func.isRequired,
+          cbDeleted: PropTypes.func.isRequired,
+          isSelected: PropTypes.bool,
+        })
+      ),
+    };
   
-      delete: function (eo) {
-        eo.stopPropagation();
-        if (this.props.cbDeleted)
-            this.props.cbDeleted(this.props.code);
-            console.log(this.props.code)
+    delete = (eo) => {
+    eo.stopPropagation();
+      if (this.props.cbDeleted)
+        this.props.cbDeleted(this.props.code);
+        console.log(this.props.code)
+    }
   
-    },
-  
-    select: function (eo) {
+    select = (eo) => {
       if (this.props.cbSelected)
           this.props.cbSelected(this.props.code);
           console.log(this.props.code)
-  },
+  }
   
-    render: function () {
-  
-      return React.DOM.tr( {className: this.props.isSelected?'selected':'normal', onClick:this.select, key:this.props.code },
-            React.DOM.td( {className: 'str'}, this.props.title ),
-            React.DOM.td( {className: 'str'}, this.props.price ),
-            React.DOM.td( {className: 'ur'},
-                React.DOM.img({src: this.props.url}),
-            ),
-            React.DOM.td( {className: 'str'}, this.props.count ),
-            React.DOM.td( {className: 'button1'},
-              React.DOM.input( {type:'button',value:'Delete', onClick:this.delete}),
-            )
-            )
-    },
-  });
+    render() {
+      return (     
+        <tr className = {this.props.isSelected?'selected':'normal'} onClick= {this.select} key= {this.props.code}>
+          <td className = 'str'> {this.props.title}</td>
+          <td className = 'str'> {this.props.price}</td>
+          <td className = 'url'>
+            <img src = {this.props.url}/>
+          </td>
+          <td className='str'> {this.props.count}</td>
+          <td className ='button'>
+            <input type = 'button' value= 'Edit'  onClick= {this.edit}/>
+            <input type = 'button' value= 'Delete'  onClick= {this.delete}/>
+          </td>
+        </tr>
+    )
+    }
+  };
 
-  module.exports = Product;
+  export default Product;
   

@@ -1,24 +1,24 @@
-"use strict";
+﻿"use strict";
 
-let React = require('react');
-let ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-let Shop= require('./components/Shop');
+import Shop from './components/Shop';
 
 let nameShop='ishop';
 let titleArr = [
-    {code: 1, title1:'title', title2: 'cost', title3: 'picture', title4: 'count', button1: 'delete product'}
+    {code: 1, title1:'Name', title2: 'Price', title3: 'Picture', title4: 'Quantity', control: 'Control'}
 ];
 
-let productsArr= [
-{title: 'charger', code: 2, price: 100, url: './images/charger.jpg', count: 100, delete: 'Delete'},
-{title: 'headphones', code: 3, price: 200, url: './images/ethetnet_hub.jpg', count: 200, delete: 'Delete'},
-{title: 'ethernet hub', code: 4, price: 300, url: './images/headphones.jpg', count: 300, delete: 'Delete'},
-];
-
-
+let productsArr=require('./productsArr.json');
 
 ReactDOM.render(
-React.createElement(Shop, {shop:nameShop, productsOrig: productsArr, header: titleArr}),
+<Shop
+  shop={nameShop}
+  productsOrig={productsArr}
+  header={titleArr}
+  />,
 document.getElementById('container')
 );
+
+

@@ -1,0 +1,41 @@
+.Product {
+    border: double gray 3px;
+    width: 380px;
+    padding: 3px 7px;
+    background-color: #f0f0f0;
+}
+
+.shopName {
+    font-weight: bold;
+    text-align: center;
+    
+}
+
+.tagTable{
+    margin: auto;
+}
+
+table {
+    border: solid black 1px;
+
+}
+
+td {
+    border: solid black 1px;
+}
+
+img {
+    width: 100px;
+}
+
+.button1 {
+    text-align: center;
+}
+input {
+    cursor: pointer;
+}
+
+tr.selected {
+    background-color:bisque;
+}
+/*# sourceMappingURL=bundle.css.map*/
