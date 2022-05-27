@@ -64,7 +64,7 @@ class Shop extends React.Component {
                 <th className ='button'> {tit.control}</th>
             </tr>
         );
-
+      
         let cardProduct=this.state.cardProductArr.map(str =>
             <CardProduct key= {str.code}
             code = {str.code} title= {str.title} price = {str.price}
@@ -73,19 +73,16 @@ class Shop extends React.Component {
             isSelected = {this.state.selectedProductCode===str.code}
             />
             );
-            
+
         return (<div className= 'Shop'>
-        
             <div className ='shopName'>{this.props.shop}</div>
                 <table className = 'tagTable'>
                     <thead className= 'listTable'>{headerTable}</thead>
                     <tbody className = 'listTable'>{productsTable}</tbody>
                 </table>
-                <input type='button' className='newProduct' value='New product' onClick={this.newProduct}/>
-                {
-                (this.state.selectedProductCode)&&
-                <div className='CardProduct'>{cardProduct}</div>}
-                
+                <input type='button' className='newProduct' value='New product' onClick={this.newProduct}/>                
+                {(this.state.selectedProductCode)&& 
+            <div className='CardProduct'>{cardProduct}</div>}
             </div>
         );
     }
