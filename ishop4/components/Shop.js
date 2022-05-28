@@ -27,22 +27,26 @@ class Shop extends React.Component {
     state = {
         selectedProductCode: null,
         products: this.props.productsOrig, 
-        cardProductArr: null,  //информация о выделенном товаре
+        cardProductArr: []  //информация о выделенном товаре
     };
 
     select = code => {
-        console.log(this.props.code);
-        this.setState( {selectedProductCode:code});
-
-        let addCardProduct= this.state.products.filter(product => product.code == code )
-        this.setState({cardProductArr: addCardProduct});
-        console.log(this.state.cardProductArr);
+        console.log(code);
+        this.setState( {selectedProductCode:code}, this.createCardProduct);
     }
 
     delete = code => {
         this.setState( {
             products: this.state.products.filter( product => product.code !== code ),
         });
+    }
+
+    createCardProduct = (code) => {
+        this.setState( {
+        cardProductArr: this.state.products.filter(product => product.code == code ),
+    });
+    console.log(this.state.cardProductArr);
+
     }
 
     render() {
@@ -64,14 +68,14 @@ class Shop extends React.Component {
                 <th className ='button'> {tit.control}</th>
             </tr>
         );
-      
-        let cardProduct=this.state.cardProductArr.map(str =>
-            <CardProduct key= {str.code}
-            code = {str.code} title= {str.title} price = {str.price}
-            url= {str.url} count = {str.count}
-            cbSelected = {this.select}
-            isSelected = {this.state.selectedProductCode===str.code}
-            />
+
+        let CardProduct=this.state.cardProductArr.map(str =>
+                <CardProduct key= {str.code}
+                code = {str.code} title= {str.title} price = {str.price}
+                url= {str.url} count = {str.count}
+                cbSelected = {this.select}
+                isSelected = {this.state.selectedProductCode===str.code}
+                />           
             );
 
         return (<div className= 'Shop'>
@@ -81,8 +85,7 @@ class Shop extends React.Component {
                     <tbody className = 'listTable'>{productsTable}</tbody>
                 </table>
                 <input type='button' className='newProduct' value='New product' onClick={this.newProduct}/>                
-                {(this.state.selectedProductCode)&& 
-            <div className='CardProduct'>{cardProduct}</div>}
+                { (this.state.selectedProductCode)?<div className='CardProduct'>{CardProduct}</div>:null }
             </div>
         );
     }

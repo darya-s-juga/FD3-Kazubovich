@@ -18,12 +18,6 @@ class CardProduct extends React.Component {
         ),
       };
 
-      select = (eo) => {
-        if (this.props.cbSelected)
-            this.props.cbSelected(this.props.code);
-            console.log(this.props.code)
-    }
-
     render() {
         return (
             <div key={this.props.code} code = {this.props.code}>
