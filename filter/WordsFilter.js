@@ -37,18 +37,20 @@ let WordsFilter=React.createClass({
             React.DOM.option({key: word.code, value: word.code}, word.text)
             );
         console.log(listCode1);
+
         if (this.state.isAlphabet) {
-            listCode1.sort();
+            listCode1.sort(listCode1.text);
             console.log(listCode1);
-
-            // this.setState( {isAlphabet: true} );
+        this.setState( {result: listCode1} );
         }
-        if (this.state.isLetter) {
 
-        }
+        if (this.state.isLetter)   {
+            listCode1.filter(word=> {
+                return word.includes(this.state.isLetter);
+            });
+        }    
         this.setState( {result: listCode1} );
         console.log(this.state.result);
-
     },
 
     render: function() {
