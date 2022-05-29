@@ -8,29 +8,48 @@ class Product extends React.Component {
     // displayName: 'Product',
   
     static propTypes = {
+      workMode: PropTypes.number.isRequired,
       products:PropTypes.arrayOf(
         PropTypes.shape({
           code: PropTypes.number.isRequired,
           count: PropTypes.number.isRequired,
           title: PropTypes.string.isRequired,
           cbSelected: PropTypes.func.isRequired,
+          cbEdit: PropTypes.func.isRequired,
           cbDeleted: PropTypes.func.isRequired,
           isSelected: PropTypes.bool,
         })
       ),
     };
-  
+
+    state = {
+      idOrig: this.props.code,
+      nameOrig: this.props.title,
+      priceOrig: this.props.price,
+      urlOrig: this.props.url,
+      quantityOrig: this.props.count
+    }
+     
+    save = (fat) => {
+      this.setState( {idOrig:fat} );
+
+    }
+
     delete = (eo) => {
     eo.stopPropagation();
       if (this.props.cbDeleted)
         this.props.cbDeleted(this.props.code);
-        console.log(this.props.code)
     }
   
     select = (eo) => {
       if (this.props.cbSelected)
           this.props.cbSelected(this.props.code);
-          console.log(this.props.code)
+  }
+
+  edit = (eo) => {
+    if (this.props.cbEdit)
+    this.props.cbEdit();
+
   }
   
     render() {
@@ -44,7 +63,7 @@ class Product extends React.Component {
           <td className='str'> {this.props.count}</td>
           <td className ='button'>
             <input type = 'button' value= 'Edit'  onClick= {this.edit}/>
-            <input type = 'button' value= 'Delete'  onClick= {this.delete}/>
+            <input type = 'button' disabled={this.props.editProduct} value= 'Delete'  onClick= {this.delete}/>
           </td>
         </tr>
     )

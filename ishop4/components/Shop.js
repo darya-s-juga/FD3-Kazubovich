@@ -11,6 +11,7 @@ class Shop extends React.Component {
     // displayName: 'Shop',
 
     static propTypes = {
+        startWorkMode: PropTypes.number.isRequired,
         shop: PropTypes.string.isRequired,
         header: PropTypes.array.isRequired,
         products: PropTypes.arrayOf(
@@ -25,14 +26,19 @@ class Shop extends React.Component {
     };
 
     state = {
+        workMode:this.props.startWorkMode,
         selectedProductCode: null,
         products: this.props.productsOrig, 
-        cardProductArr: []  //информация о выделенном товаре
+        cardProductArr: [], //информация о выделенном товаре
+        editProduct: false, //когда вносятся данные в товар, лишние кнопки будут неактивны 
+        finishRedact: true, //отображение данных о товаре, кнопки  активны 
+        // titleText:
     };
 
     select = code => {
-        console.log(code);
-        this.setState( {selectedProductCode:code}, this.createCardProduct);
+        this.setState( {selectedProductCode:code,
+             cardProductArr: this.state.products.filter(product => product.code == code),
+            });
     }
 
     delete = code => {
@@ -41,21 +47,27 @@ class Shop extends React.Component {
         });
     }
 
-    createCardProduct = (code) => {
-        this.setState( {
-        cardProductArr: this.state.products.filter(product => product.code == code ),
-    });
-    console.log(this.state.cardProductArr);
-
+    edit = () => {
+        this.setState( {workMode:2, editProduct: true} );
     }
 
-    render() {
+    save = () => {
+        this.setState( {workMode:1,    } );
+    }
+
+    cancel = () => {
+        this.setState( {workMode:1, editProduct: false} );
+    }
+
+       render() {
         let productsTable=this.state.products.map(product =>
             <Product key = {product.code}
                 code = {product.code} title= {product.title} price = {product.price}
                 url= {product.url} count = {product.count}
                 cbSelected = {this.select} cbDeleted = {this.delete}
                 isSelected = {this.state.selectedProductCode===product.code}
+                workMode={this.state.workMode}
+                cbEdit = {this.edit} editProduct = {this.state.editProduct}
             />
         );
 
@@ -69,12 +81,16 @@ class Shop extends React.Component {
             </tr>
         );
 
-        let CardProduct=this.state.cardProductArr.map(str =>
+        let cardProduct=this.state.cardProductArr.map(str =>
                 <CardProduct key= {str.code}
                 code = {str.code} title= {str.title} price = {str.price}
                 url= {str.url} count = {str.count}
                 cbSelected = {this.select}
                 isSelected = {this.state.selectedProductCode===str.code}
+                workMode={this.state.workMode}
+                cbCancel = {this.cancel}
+                cbSave = {this.save}
+                cbFinishRedact={this.finishRedact}
                 />           
             );
 
@@ -84,8 +100,8 @@ class Shop extends React.Component {
                     <thead className= 'listTable'>{headerTable}</thead>
                     <tbody className = 'listTable'>{productsTable}</tbody>
                 </table>
-                <input type='button' className='newProduct' value='New product' onClick={this.newProduct}/>                
-                { (this.state.selectedProductCode)?<div className='CardProduct'>{CardProduct}</div>:null }
+                <input type='button' disabled={this.state.editProduct} className='newProduct' value='New product' onClick={this.newProduct}/>                
+                { (this.state.selectedProductCode)?<div className='CardProduct'>{cardProduct}</div>:null }
             </div>
         );
     }

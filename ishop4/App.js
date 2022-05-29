@@ -17,6 +17,7 @@ ReactDOM.render(
   shop={nameShop}
   productsOrig={productsArr}
   header={titleArr}
+  startWorkMode={1}
   />,
 document.getElementById('container')
 );
