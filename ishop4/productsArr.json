@@ -1,5 +1,5 @@
 [
     {"title": "charger", "code": 2, "price": 100, "url": "./images/charger.jpg", "count": 100, "edit": "Edit", "delete": "Delete"},
-    {"title": "headphones", "code": 3, "price": 200, "url": "./images/ethetnet_hub.jpg", "count": 200, "edit": "Edit", "delete": "Delete"},
-    {"title": "ethernet hub", "code": 4, "price": 300, "url": "./images/headphones.jpg", "count": 300, "edit": "Edit", "delete": "Delete"}
+    {"title": "headphones", "code": 3, "price": 200, "url": "./images/headphones.jpg", "count": 200, "edit": "Edit", "delete": "Delete"},
+    {"title": "ethernet hub", "code": 4, "price": 300, "url": "./images/ethetnet_hub.jpg", "count": 300, "edit": "Edit", "delete": "Delete"}
     ]

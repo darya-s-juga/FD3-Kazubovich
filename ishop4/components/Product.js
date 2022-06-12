@@ -22,19 +22,6 @@ class Product extends React.Component {
       ),
     };
 
-    state = {
-      idOrig: this.props.code,
-      nameOrig: this.props.title,
-      priceOrig: this.props.price,
-      urlOrig: this.props.url,
-      quantityOrig: this.props.count
-    }
-     
-    save = (fat) => {
-      this.setState( {idOrig:fat} );
-
-    }
-
     delete = (eo) => {
     eo.stopPropagation();
       if (this.props.cbDeleted)
@@ -62,7 +49,7 @@ class Product extends React.Component {
           </td>
           <td className='str'> {this.props.count}</td>
           <td className ='button'>
-            <input type = 'button' value= 'Edit'  onClick= {this.edit}/>
+            <input type = 'button' disabled={this.props.editProduct} value= 'Edit'  onClick= {this.edit}/>
             <input type = 'button' disabled={this.props.editProduct} value= 'Delete'  onClick= {this.delete}/>
           </td>
         </tr>
