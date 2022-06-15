@@ -9,8 +9,6 @@ import CardProduct from './CardProduct';
 
 class Shop extends React.Component {
 
-    // displayName: 'Shop',
-
     static propTypes = {
         startWorkMode: PropTypes.number.isRequired,
         shop: PropTypes.string.isRequired,
@@ -27,21 +25,21 @@ class Shop extends React.Component {
     };
 
     state = {
-        workMode:this.props.startWorkMode,
+        workMode:this.props.startWorkMode, //0 -start, 1 - view, 2 - edit
         selectedProductCode: null,
         products: this.props.productsOrig, 
+        key: '5',
+        add: false,         //добавление товара
         cardProductArr: [], //информация о выделенном товаре
-        editProduct: false, //когда вносятся данные в товар, лишние кнопки будут неактивны 
-        finishRedact: true, //отображение данных о товаре, кнопки  активны 
-        titleText: this.props.title,
-        listDataFromChild: null,
-    };
+        editProduct: false, //товар редактируется, лишние кнопки будут неактивны 
+        blockChange: false, //если товар не закончил редактирование, кнопки  неактивны,
+    };                      //  переход к другой строке невозможен
 
     select = code => {
         let selected = this.state.products;
-
         this.setState( {selectedProductCode:code,
              cardProductArr: selected.filter(product => product.code == code),
+             workMode:1,
             });
     }
 
@@ -49,44 +47,55 @@ class Shop extends React.Component {
         let deleted= this.state.products;
         this.setState( {
             products: deleted.filter( product => product.code !== code ),
+            workMode: 0, selectedProductCode: '',
         });
     }
 
-    edit = () => {
-        this.setState( {workMode:2, editProduct: true} );
+    edit = (code) => {
+            this.setState( {workMode:2, editProduct: true, isSelected: true, selectedProductCode: code, blockChange: true} )   
     }
 
-    save = (key, dataFromChild) => {
-        console.log(key)
-        console.log(this.state.cardProductArr[0]['code']);
-        let indexDelProduct=this.state.products.findIndex(el => el.code === key);
-        if (indexDelProduct != -1) {
-            this.state.products.splice(indexDelProduct, 1);
+    onChange = () => {
+        this.setState({blockChange: true});
+    }
+
+    save = (dataFromChild) => {
+        let products;
+        if (this.state.add){
+            let product = {...dataFromChild, code: this.state.key};
+            products=this.state.products.slice();
+            products.push(product);
         }
-        let addNewPropertyArr=this.state.products.concat(dataFromChild);
+        else {
+            products = this.state.products.map(v => v.code==dataFromChild.code ? dataFromChild : v)
+        }
         function byField(field) {
             return (a, b) => a[field] > b[field] ? 1 : -1;
           }
         
-     this.setState( {cardProductArr:dataFromChild, workMode:1, products: addNewPropertyArr.sort(byField('code')), editProduct: false}
+     this.setState( {workMode:1, blockChange: false, add: false, products: products.sort(byField('code')), editProduct: false}
     );
-    console.log(this.state.products)
     }
 
     cancel = () => {
         let edit=this.state.cardProductArr;
+        this.setState( {workMode:1, blockChange: false, add: false, editProduct: false, cardProductArr: edit} );
+    }
 
-        this.setState( {workMode:1, editProduct: false} );
+    newProduct = () => {
+        let key = ++this.state.key;
+        let newKey = String(key);
+        this.setState({workMode: 2, key: newKey, add: true, editProduct: true});
     }
 
        render() {
         let productsTable=this.state.products.map(product =>
             <Product key = {product.code}
                 code = {product.code} title= {product.title} price = {product.price}
-                url= {product.url} count = {product.count}
+                url= {product.url} count = {product.count} blockChange={this.state.blockChange}
                 cbSelected = {this.select} cbDeleted = {this.delete}
-                isSelected = {this.state.selectedProductCode===product.code}
-                workMode={this.state.workMode}
+                isSelected = {this.state.selectedProductCode==product.code}
+                workMode={this.state.workMode} add={this.state.add}
                 cbEdit = {this.edit} editProduct = {this.state.editProduct}
             />
         );
@@ -100,20 +109,14 @@ class Shop extends React.Component {
                 <th className ='button'> {tit.control}</th>
             </tr>
         );
-
-        let cardProduct=this.state.cardProductArr.map(str =>
-                <CardProduct key= {str.code}
-                code = {str.code} title= {str.title} price = {str.price}
-                url= {str.url} count = {str.count}
-                cbSelected = {this.select}
-                isSelected = {this.state.selectedProductCode===str.code}
-                workMode={this.state.workMode}
-                cbCancel = {this.cancel}
-                cbFinishRedact={this.finishRedact}
-                cbSaveChanges = {this.save}
-
-                />           
-            );
+        
+        let addProduct={code: this.state.key,
+            name: '',
+            price: '',
+            url:'',
+            count:''};
+        
+        let cardProduct=this.state.products.find(v => v.code == this.state.selectedProductCode) ; 
 
         return (<div className= 'Shop'>
             <div className ='shopName'>{this.props.shop}</div>
@@ -122,7 +125,15 @@ class Shop extends React.Component {
                     <tbody className = 'listTable'>{productsTable}</tbody>
                 </table>
                 <input type='button' disabled={this.state.editProduct} className='newProduct' value='New product' onClick={this.newProduct}/>                
-                { (this.state.selectedProductCode)?<div className='CardProduct'>{cardProduct}</div>:null }
+                { (this.state.selectedProductCode || this.state.add) &&
+                <CardProduct  key= {this.state.add? this.state.key : this.props.isSelected} product= {this.state.add?addProduct:cardProduct}
+                        cbSelected = {this.select}  add={this.state.add}
+                        workMode={this.state.workMode}
+                        cbCancel = {this.cancel} isSelected = {this.state.selectedProductCode}
+                        cbOnChange={this.onChange}
+                        cbSaveChanges = {this.save}
+                />}
+                
             </div>
         );
     }
