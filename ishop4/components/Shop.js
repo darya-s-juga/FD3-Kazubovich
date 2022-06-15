@@ -44,11 +44,14 @@ class Shop extends React.Component {
     }
 
     delete = code => {
-        let deleted= this.state.products;
-        this.setState( {
-            products: deleted.filter( product => product.code !== code ),
-            workMode: 0, selectedProductCode: '',
-        });
+        let answer=confirm('Delete?');
+        if (answer){
+            let deleted= this.state.products;
+            this.setState( {
+                products: deleted.filter( product => product.code !== code ),
+                workMode: 0, selectedProductCode: '',
+            });
+        }
     }
 
     edit = (code) => {
