@@ -103,7 +103,7 @@ class CardProduct extends React.Component {
     else {
       if ( this.props.workMode== 2) {
         return (
-          <div code = {this.props.add? this.props.key : this.props.product.code}>
+          <div code = {this.props.product.code}>
             <h1>{this.props.add?"Add new product":"Edit Existing Product"}</h1>
             <p>"ID:" {this.props.product.code}</p>
             <div>
