@@ -129,7 +129,8 @@ class Shop extends React.Component {
                 </table>
                 <input type='button' disabled={this.state.editProduct} className='newProduct' value='New product' onClick={this.newProduct}/>                
                 { (this.state.selectedProductCode || this.state.add) &&
-                <CardProduct  key= {this.state.add? this.state.key : this.props.isSelected} product= {this.state.add?addProduct:cardProduct}
+                <CardProduct  key= {this.state.add? this.state.key : this.props.code} product= {this.state.add?addProduct:cardProduct}
+                        code={this.state.selectedProductCode}
                         cbSelected = {this.select}  add={this.state.add}
                         workMode={this.state.workMode}
                         cbCancel = {this.cancel} isSelected = {this.state.selectedProductCode}

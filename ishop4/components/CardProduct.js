@@ -108,22 +108,22 @@ class CardProduct extends React.Component {
             <p>"ID:" {this.props.product.code}</p>
             <div>
               <label>Name:</label>
-              <input type='text' name='nameOrig' defaultValue={this.props.add?'': this.state.nameOrig}  onChange={this.handleUserInput}></input>
+              <input type='text' name='nameOrig' defaultValue={this.props.add?'': this.props.product.title}  onChange={this.handleUserInput}></input>
               <span className='error' hidden={!this.state.nameOrigError}>Введите название товара!</span>
             </div>
             <div>
               <label>Price:</label>
-              <input type='text' name='priceOrig' defaultValue={this.props.add?'':this.state.priceOrig}  onChange={this.handleUserInput}></input>
+              <input type='text' name='priceOrig' defaultValue={this.props.add?'':this.props.product.price}  onChange={this.handleUserInput}></input>
               <span className='error' hidden={!this.state.priceOrigError}>Значение должно быть числом больше 0!</span>
             </div>
             <div>
               <label>URL:</label>
-              <input type='text' name='urlOrig' defaultValue={this.props.add?'':this.state.urlOrig}  onChange={this.handleUserInput}></input>
+              <input type='text' name='urlOrig' defaultValue={this.props.add?'':this.props.product.url}  onChange={this.handleUserInput}></input>
               <span className='error' hidden={!this.state.urlOrigError}>Значение должно быть допустимым URL!</span>
             </div>
             <div>
               <label>Quantity:</label>
-              <input type='text' name='quantityOrig' defaultValue={this.props.add?'':this.state.quantityOrig} onChange={this.handleUserInput}></input>
+              <input type='text' name='quantityOrig' defaultValue={this.props.add?'':this.props.product.count} onChange={this.handleUserInput}></input>
               <span className='error' hidden={!this.state.quantityOrigError}>Значение должно быть положительным числом!</span>
             </div>
             <div className='changeProduct'>
